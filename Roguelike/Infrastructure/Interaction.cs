@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Roguelike.Infrastructure
@@ -29,8 +30,12 @@ namespace Roguelike.Infrastructure
                         player.Inventory.Add(item.Item);
                     player.Position = item.Position;
                     Renderer.RemChar(to);
+
+                    Renderer.WriteLog($"You picked up: {item.Item}");
                 }
             }
+
+            ThreadPool.QueueUserWorkItem(x => Renderer.WriteStats());
         }
 
     }

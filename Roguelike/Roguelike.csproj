@@ -46,6 +46,7 @@
     <Compile Include="Characters\Door.cs" />
     <Compile Include="Characters\Character.cs" />
     <Compile Include="Characters\ItemConteiner.cs" />
+    <Compile Include="Infrastructure\Controller.cs" />
     <Compile Include="Infrastructure\Interaction.cs" />
     <Compile Include="Items\Gold.cs" />
     <Compile Include="Items\IItem.cs" />

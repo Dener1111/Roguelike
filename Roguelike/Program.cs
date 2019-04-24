@@ -1,4 +1,5 @@
 ﻿using Roguelike.Characters;
+using Roguelike.Infrastructure;
 using Roguelike.Items;
 using System;
 using System.Collections.Generic;
@@ -28,28 +29,19 @@ namespace Roguelike
 
             ItemConteiner item1 = new ItemConteiner(new Vector2(4,4), new Weapon("Iron Sword", 2));
             ItemConteiner item2 = new ItemConteiner(new Vector2(6,4), new Gold(5));
+            ItemConteiner item3 = new ItemConteiner(new Vector2(3,4), new Weapon("Wooden Clab", 1));
 
             Renderer mapRenderer = new Renderer();
             Renderer.AddChar(player);
             Renderer.AddChar(door1);
             Renderer.AddChar(item1);
             Renderer.AddChar(item2);
+            Renderer.AddChar(item3);
 
-            ThreadPool.QueueUserWorkItem(x => Renderer.Render());
-
-            ConsoleKeyInfo input;
-            while (true)
-            {
-                input = new ConsoleKeyInfo();
-
-                while(Console.KeyAvailable)
-                    input = Console.ReadKey(true);
-
-                if (player.Controll(input));
-                    //enemys turn
-
-                Thread.Sleep(100);
-            }
+            Renderer.Render();
+            Renderer.WriteStats();
+            
+            Controller.ControlPlayer(player);
         }
     }
 }

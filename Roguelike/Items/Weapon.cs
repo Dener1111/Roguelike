@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Roguelike.Items
 {
-    class Weapon : IItem
+    public class Weapon : IItem
     {
         public string Name { get; set; }
 
@@ -18,6 +18,6 @@ namespace Roguelike.Items
             Damage = damage;
         }
 
-        public override string ToString() => $"{Name}  {Damage}dmg";
+        public override string ToString() => $"{Name}|{Damage} dmg";
     }
 }

@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace Roguelike
 {
-    class Player : Character
+    public class Player : Character
     {   
         public int Speed { get; set; }
         public int Hp { get; set; }
 
         public Weapon CurrentWeapon { get; set; }
+        //public Armor CurrentArmor { get; set; }
 
         public List<IItem> Inventory { get; set; }
 
@@ -34,22 +35,25 @@ namespace Roguelike
 
         public bool Controll(ConsoleKeyInfo button)
         {
-            switch (button.KeyChar)
+            switch (button.Key)
             {
-                case 'w':
+                case ConsoleKey.W:
                     Move(new Vector2(0, -Speed));
                     break;
-                case 's':
+                case ConsoleKey.S:
                     Move(new Vector2(0, Speed));
                     break;
-                case 'a':
+                case ConsoleKey.A:
                     Move(new Vector2(-Speed, 0));
                     break;
-                case 'd':
+                case ConsoleKey.D:
                     Move(new Vector2(Speed, 0));
                     break;
-                case ' ':
+                case ConsoleKey.Spacebar:
                     break;
+                case ConsoleKey.Tab:
+                    Controller.ControlInventory();
+                    return false;
                 default:
                     return false;
             }
