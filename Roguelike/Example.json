@@ -1,0 +1,87 @@
+{
+
+  "CurrentMap": {
+    "MapView": [
+      "############",
+      "#          #",
+      "#          #",
+      "#          #",
+      "#          #",
+      "#          ###",
+      "#            #",
+      "############ #",
+      "           # #      #############",
+      "############ #      #           #",
+      "#            #      #           #",
+      "#            #      #           #",
+      "#            ########           #",
+      "#                               #",
+      "#            ########           #",
+      "##############      #           #",
+      "                    #############"
+    ]
+  },
+  "Collisions": [ "#" ],
+  "Players": [
+    {
+      "MaxHp": 10,
+      "Hp": 10,
+      "Speed": 1,
+      "CurrentWeapon": {
+        "Name": "Fists",
+        "Damage": 1
+      },
+      "CurrentArmor": {
+        "Name": "None",
+        "ArmorClass": 0
+      },
+      "Inventory": [],
+      "Gold": 0,
+      "CharacterGraphic": "@",
+      "Name": "You",
+      "Position": {
+        "x": 5,
+        "y": 4
+      }
+    }
+  ],
+  "Enemys": [],
+  "Doors": [
+    {
+      "Vertical": true,
+      "Closed": true,
+      "KeyId": 1,
+      "CharacterGraphic": "│",
+      "Name": "Door",
+      "Position": {
+        "x": 11,
+        "y": 6
+      }
+    }
+  ],
+  "FakeWalls": [
+    {
+      "WallId": 1,
+      "Opened": false,
+      "CharacterGraphic": "#",
+      "Name": "Wall",
+      "Position": {
+        "x": 16,
+        "y": 13
+      }
+    }
+  ],
+  "ItemConteiners": [],
+  "Leavers": [
+    {
+      "WallId": 1,
+      "CharacterGraphic": "/",
+      "Name": "Leaver",
+      "Position": {
+        "x": 12,
+        "y": 11
+      }
+    }
+  ],
+  "Characters": []
+}
