@@ -1,4 +1,5 @@
-﻿using Roguelike.Infrastructure;
+﻿using Roguelike.Characters;
+using Roguelike.Infrastructure;
 using Roguelike.Items;
 using System;
 using System.Collections.Generic;
@@ -10,30 +11,47 @@ using System.Threading.Tasks;
 
 namespace Roguelike
 {
-    public class Player : Character
+    public class Player : Character, IDamagable, IAttacker
     {   
-        public int Speed { get; set; }
+        public int MaxHp { get; set; }
         public int Hp { get; set; }
+        public int Speed { get; set; }
 
         public Weapon CurrentWeapon { get; set; }
-        //public Armor CurrentArmor { get; set; }
+        public Armor CurrentArmor { get; set; }
+
+        public Weapon NoWeapon { get; set; }
+        public Armor NoArmor { get; set; }
 
         public List<IItem> Inventory { get; set; }
 
         public int Gold { get; set; }
-        
-        public Player()
+
+        public Player(int maxHp)
         {
+            Name = "You";
             CharacterGraphic = '@';
             Position = new Vector2();
-            Speed = 1;
             Inventory = new List<IItem>();
+            CurrentWeapon = NoWeapon = new Weapon("Fists", 1);
+            CurrentArmor = NoArmor = new Armor("None", 0);
+
+            MaxHp = Hp = maxHp;
+            Speed = 1;
             Gold = 0;
         }
 
-        
+        public void DropItem(int num)
+        {
+            Renderer.AddChar(new ItemConteiner(Position, Inventory[num]));
+            if (Inventory[num] is Weapon w && w == CurrentWeapon)
+                CurrentWeapon = NoWeapon;
+            else if (Inventory[num] is Armor a && a == CurrentArmor)
+                CurrentArmor = NoArmor;
+            Inventory.RemoveAt(num);
+        }
 
-        public bool Controll(ConsoleKeyInfo button)
+        public bool Control(ConsoleKeyInfo button)
         {
             switch (button.Key)
             {
@@ -58,15 +76,6 @@ namespace Roguelike
                     return false;
             }
             return true;
-        }
-
-        void Move(Vector2 v)
-        {
-            Character ch = Utilites.u.FindCharacter(Position + v);
-            if (ch != null)
-                Interaction.Interact(this, ch);
-            else if (!Utilites.u.CheckCollision(Utilites.u.CurrentMap.Cords(Position + v)))
-                Position += v;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roguelike.Characters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -12,9 +13,10 @@ namespace Roguelike
     {
         public static int MapRenderWidth { get; set; }
         public static int MapRenderHeight { get; set; }
+        public static int InvRenderWidth { get; set; }
         public static List<Character> Characters { get; set; }
         public static Player Player { get; set; }
-        //public static Enemy LastEnemy { get; set; }
+        public static Enemy LastEnemy { get; set; }
 
         static int selectedItem;
         public static int SelectedItem
@@ -33,16 +35,18 @@ namespace Roguelike
         {
             MapRenderWidth = 64;
             MapRenderHeight = 32;
+            InvRenderWidth = 20;
             Console.CursorVisible = false;
             Characters = new List<Character>();
 
             Console.BufferHeight = Console.WindowHeight = MapRenderHeight + 1;
-            Console.BufferWidth = Console.WindowWidth = MapRenderWidth + 20;
+            Console.BufferWidth = Console.WindowWidth = MapRenderWidth + InvRenderWidth;
         }
 
         public static void RenderHeandler(object sender, PropertyChangedEventArgs e)
-        {//check last enemy
-            ThreadPool.QueueUserWorkItem(x => Render());
+        {
+            //if(sender is Enemy enemy && enemy == LastEnemy)
+                ThreadPool.QueueUserWorkItem(x => Render());
         }
 
         public static void Render()
@@ -97,27 +101,30 @@ namespace Roguelike
 
                 int i = 0;
                 Console.SetCursorPosition(MapRenderWidth, i);
-                Console.Write($"HP: {Player.Hp} Gold: {Player.Gold}");
+                Console.Write(new string(' ', InvRenderWidth));
+                Console.SetCursorPosition(MapRenderWidth, i);
+                Console.Write($"HP: {Player.Hp}/{Player.MaxHp} Gold: {Player.Gold}");
 
                 Console.SetCursorPosition(MapRenderWidth, i = 2);
-                Console.Write($"Armor:");
+                Console.Write($"Weapon Damage: {Player.CurrentWeapon?.Damage}");
                 Console.SetCursorPosition(MapRenderWidth, i = 3);
-                Console.Write($" ArmorPlaceHolder");
+                Console.Write($" {Player.CurrentWeapon?.Name + new string(' ', InvRenderWidth - Player.CurrentWeapon.Name.Length - 1)}");
 
                 Console.SetCursorPosition(MapRenderWidth, i = 5);
-                Console.Write($"Weapon:");
+                Console.Write($"Armor: {Player.CurrentArmor?.ArmorClass}");
                 Console.SetCursorPosition(MapRenderWidth, i = 6);
-                Console.Write($" {Player.CurrentWeapon}");
+                Console.Write($" {Player.CurrentArmor?.Name + new string(' ', InvRenderWidth - Player.CurrentArmor.Name.Length - 1)}");
 
                 Console.SetCursorPosition(MapRenderWidth, i = 8);
                 Console.Write($"Inventory:");
-
-
+                
                 foreach (var item in Player.Inventory)
                 {
                     Console.SetCursorPosition(MapRenderWidth, ++i);
                     Console.Write($" {item}");
                 }
+                Console.SetCursorPosition(MapRenderWidth, ++i);
+                Console.Write(new string(' ', InvRenderWidth));
 
                 Console.SetCursorPosition(pos.x, pos.y);
             }
@@ -140,8 +147,9 @@ namespace Roguelike
         {
             if (character is Player && Player == null)
                 Player = character as Player;
-            else//if lastenemy
-                Characters.Add(character);
+            else if (character is Enemy enemy)
+                LastEnemy = enemy;
+            Characters.Add(character);
             character.PropertyChanged += RenderHeandler;
         }
         public static void RemChar(Character character)

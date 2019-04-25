@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roguelike.Characters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Roguelike.Infrastructure
     {
         static ConsoleKeyInfo input;
 
-        public static void ControlPlayer(Player player)
+        public static void ControlPlayer()
         {
             while (true)
             {
@@ -20,8 +21,10 @@ namespace Roguelike.Infrastructure
                 while (Console.KeyAvailable)
                     input = Console.ReadKey(true);
 
-                if (player.Controll(input)) ;
-                //enemys turn
+                if (Renderer.Player.Control(input))
+                    foreach (var item in Renderer.Characters)
+                        if (item is Enemy enemy)
+                            enemy.Move();
 
                 Thread.Sleep(100);
             }
@@ -38,6 +41,9 @@ namespace Roguelike.Infrastructure
 
                 switch (input.Key)
                 {
+                    case ConsoleKey.Q:
+                        Renderer.Player.DropItem(Renderer.SelectedItem);
+                        break;
                     case ConsoleKey.W:
                         Renderer.SelectedItem--;
                         break;
@@ -45,6 +51,7 @@ namespace Roguelike.Infrastructure
                         Renderer.SelectedItem++;
                         break;
                     case ConsoleKey.Spacebar:
+                        Renderer.Player.Inventory[Renderer.SelectedItem].Use(Renderer.Player);
                         break;
                     case ConsoleKey.Tab:
                         Renderer.WriteStats();

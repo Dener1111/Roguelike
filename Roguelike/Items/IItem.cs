@@ -9,5 +9,7 @@ namespace Roguelike.Items
     public interface IItem
     {
         string Name { get; set; }
+
+        void Use(Player p);
     }
 }

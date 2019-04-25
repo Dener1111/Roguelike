@@ -45,11 +45,20 @@
   <ItemGroup>
     <Compile Include="Characters\Door.cs" />
     <Compile Include="Characters\Character.cs" />
+    <Compile Include="Characters\Enemy.cs" />
+    <Compile Include="Characters\FakeWall.cs" />
+    <Compile Include="Characters\IActivatable.cs" />
+    <Compile Include="Characters\IAttacker.cs" />
+    <Compile Include="Characters\IDamagable.cs" />
     <Compile Include="Characters\ItemConteiner.cs" />
+    <Compile Include="Characters\Leaver.cs" />
     <Compile Include="Infrastructure\Controller.cs" />
     <Compile Include="Infrastructure\Interaction.cs" />
+    <Compile Include="Items\Armor.cs" />
+    <Compile Include="Items\Consumable.cs" />
     <Compile Include="Items\Gold.cs" />
     <Compile Include="Items\IItem.cs" />
+    <Compile Include="Items\Key.cs" />
     <Compile Include="Items\Weapon.cs" />
     <Compile Include="Map\Map.cs" />
     <Compile Include="Characters\Player.cs" />

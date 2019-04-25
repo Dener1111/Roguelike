@@ -13,14 +13,33 @@ namespace Roguelike.Infrastructure
     {
         public static void Interact(Character from, Character to)
         {
+            if (from == to)
+                return;
+            if (to is FakeWall wall)
+            {
+                if (wall.Opened)
+                    from.Position = to.Position;
+                return;
+            }
+            if (from is IAttacker)
+            {
+                if(to is IDamagable dmgbl)
+                {
+                    int? dmg = to.GetDamage(from);
+                    if (dmg != null)
+                        Renderer.WriteLog($"{from.Name} Damaged {to.Name} by {dmg}");
+                    if (dmgbl.Hp <= 0)
+                        to.Die(from);
+                }
+            }
             if (from is Player player)
             {
-                if (to is Door door)
+                if (to is IActivatable activatable)
                 {
-                    if (door.Closed)
-                        door.Unlock();
-                    else
+                    if (activatable is Door door && !door.Closed)
                         player.Position = door.Position;
+                    else
+                        Renderer.WriteLog($"{from.Name} {activatable.Activate()} {to.Name}");
                 }
                 else if (to is ItemConteiner item)
                 {
@@ -31,10 +50,10 @@ namespace Roguelike.Infrastructure
                     player.Position = item.Position;
                     Renderer.RemChar(to);
 
-                    Renderer.WriteLog($"You picked up: {item.Item}");
+                    Renderer.WriteLog($"{from.Name} picked up: {item.Item}");
                 }
             }
-
+            
             ThreadPool.QueueUserWorkItem(x => Renderer.WriteStats());
         }
 

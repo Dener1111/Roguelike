@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roguelike.Items;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Roguelike
         public static Utilites u;
 
         public Map CurrentMap { get; set; }
+        public Player Player { get; set; }
 
         public List<char> Collisions { get; set; }
 
@@ -30,5 +32,21 @@ namespace Roguelike
         }
 
         public bool CheckCollision(char ch) => Collisions.Contains(ch);
+
+        public bool FindKey(int id)
+        {
+            foreach (var item in Player.Inventory)
+            {
+                if (item is Key key)
+                {
+                    if (key.KeyId == id)
+                    {
+                        Player.Inventory.Remove(item);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 }

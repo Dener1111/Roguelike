@@ -6,22 +6,24 @@ using System.Threading.Tasks;
 
 namespace Roguelike.Items
 {
-    class Gold : IItem
+    public class Key : IItem
     {
         public string Name { get; set; }
-        public int Amount { get; set; }
 
-        public Gold(int amount  = 1)
+        public int KeyId { get; set; }
+
+        public Key(int kId)
         {
-            Name = "Gold";
-            Amount = amount;
+            Name = "Key";
+            KeyId = kId;
         }
 
         public void Use(Player p)
         {
-            throw new NotImplementedException();
+            Renderer.WriteLog("Key to open Doors");
         }
 
-        public override string ToString() => $"{Amount} {Name}";
+        public override string ToString() => $"Key";
+
     }
 }

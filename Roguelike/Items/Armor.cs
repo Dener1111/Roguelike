@@ -6,24 +6,22 @@ using System.Threading.Tasks;
 
 namespace Roguelike.Items
 {
-    public class Weapon : IItem
+    public class Armor : IItem
     {
         public string Name { get; set; }
+        public int ArmorClass { get; set; }
 
-        public int Damage { get; set; }
-
-        public Weapon(string name = "weapon", int damage = 1)
+        public Armor(string name, int ac = 1)
         {
             Name = name;
-            Damage = damage;
+            ArmorClass = ac;
         }
 
         public void Use(Player p)
         {
-            p.CurrentWeapon = this;
+            p.CurrentArmor = this;
         }
 
-        public override string ToString() => $"{Name}|{Damage} dmg";
-
+        public override string ToString() => $"{Name}|{ArmorClass} ac";
     }
 }
