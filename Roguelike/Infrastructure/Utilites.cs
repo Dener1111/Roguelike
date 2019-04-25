@@ -12,7 +12,6 @@ namespace Roguelike
         public static Utilites u;
 
         public Map CurrentMap { get; set; }
-        public Player Player { get; set; }
 
         public List<char> Collisions { get; set; }
 
@@ -35,13 +34,13 @@ namespace Roguelike
 
         public bool FindKey(int id)
         {
-            foreach (var item in Player.Inventory)
+            foreach (var item in Renderer.Player.Inventory)
             {
                 if (item is Key key)
                 {
                     if (key.KeyId == id)
                     {
-                        Player.Inventory.Remove(item);
+                        Renderer.Player.Inventory.Remove(item);
                         return true;
                     }
                 }

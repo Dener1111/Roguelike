@@ -1,4 +1,5 @@
-﻿using Roguelike.Characters;
+﻿using Newtonsoft.Json;
+using Roguelike.Characters;
 using Roguelike.Infrastructure;
 using Roguelike.Items;
 using System;
@@ -20,7 +21,9 @@ namespace Roguelike
         public Weapon CurrentWeapon { get; set; }
         public Armor CurrentArmor { get; set; }
 
+        [JsonIgnore]
         public Weapon NoWeapon { get; set; }
+        [JsonIgnore]
         public Armor NoArmor { get; set; }
 
         public List<IItem> Inventory { get; set; }

@@ -14,19 +14,22 @@ namespace Roguelike.Infrastructure
 
         public static void ControlPlayer()
         {
-            while (true)
+            if (Renderer.Player != null)
             {
-                input = new ConsoleKeyInfo();
+                while (true)
+                {
+                    input = new ConsoleKeyInfo();
 
-                while (Console.KeyAvailable)
-                    input = Console.ReadKey(true);
+                    while (Console.KeyAvailable)
+                        input = Console.ReadKey(true);
 
-                if (Renderer.Player.Control(input))
-                    foreach (var item in Renderer.Characters)
-                        if (item is Enemy enemy)
-                            enemy.Move();
+                    if (Renderer.Player.Control(input))
+                        foreach (var item in Renderer.Characters)
+                            if (item is Enemy enemy)
+                                enemy.Move();
 
-                Thread.Sleep(100);
+                    Thread.Sleep(100);
+                }
             }
         }
 

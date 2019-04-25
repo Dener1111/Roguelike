@@ -97,36 +97,39 @@ namespace Roguelike
         {
             lock (lockOn)
             {
-                Vector2 pos = new Vector2(Console.CursorLeft, Console.CursorTop);
-
-                int i = 0;
-                Console.SetCursorPosition(MapRenderWidth, i);
-                Console.Write(new string(' ', InvRenderWidth));
-                Console.SetCursorPosition(MapRenderWidth, i);
-                Console.Write($"HP: {Player.Hp}/{Player.MaxHp} Gold: {Player.Gold}");
-
-                Console.SetCursorPosition(MapRenderWidth, i = 2);
-                Console.Write($"Weapon Damage: {Player.CurrentWeapon?.Damage}");
-                Console.SetCursorPosition(MapRenderWidth, i = 3);
-                Console.Write($" {Player.CurrentWeapon?.Name + new string(' ', InvRenderWidth - Player.CurrentWeapon.Name.Length - 1)}");
-
-                Console.SetCursorPosition(MapRenderWidth, i = 5);
-                Console.Write($"Armor: {Player.CurrentArmor?.ArmorClass}");
-                Console.SetCursorPosition(MapRenderWidth, i = 6);
-                Console.Write($" {Player.CurrentArmor?.Name + new string(' ', InvRenderWidth - Player.CurrentArmor.Name.Length - 1)}");
-
-                Console.SetCursorPosition(MapRenderWidth, i = 8);
-                Console.Write($"Inventory:");
-                
-                foreach (var item in Player.Inventory)
+                if (Player != null)
                 {
-                    Console.SetCursorPosition(MapRenderWidth, ++i);
-                    Console.Write($" {item}");
-                }
-                Console.SetCursorPosition(MapRenderWidth, ++i);
-                Console.Write(new string(' ', InvRenderWidth));
+                    Vector2 pos = new Vector2(Console.CursorLeft, Console.CursorTop);
 
-                Console.SetCursorPosition(pos.x, pos.y);
+                    int i = 0;
+                    Console.SetCursorPosition(MapRenderWidth, i);
+                    Console.Write(new string(' ', InvRenderWidth));
+                    Console.SetCursorPosition(MapRenderWidth, i);
+                    Console.Write($"HP: {Player.Hp}/{Player.MaxHp} Gold: {Player.Gold}");
+
+                    Console.SetCursorPosition(MapRenderWidth, i = 2);
+                    Console.Write($"Weapon Damage: {Player.CurrentWeapon?.Damage}");
+                    Console.SetCursorPosition(MapRenderWidth, i = 3);
+                    Console.Write($" {Player.CurrentWeapon?.Name + new string(' ', InvRenderWidth - Player.CurrentWeapon.Name.Length - 1)}");
+
+                    Console.SetCursorPosition(MapRenderWidth, i = 5);
+                    Console.Write($"Armor: {Player.CurrentArmor?.ArmorClass}");
+                    Console.SetCursorPosition(MapRenderWidth, i = 6);
+                    Console.Write($" {Player.CurrentArmor?.Name + new string(' ', InvRenderWidth - Player.CurrentArmor.Name.Length - 1)}");
+
+                    Console.SetCursorPosition(MapRenderWidth, i = 8);
+                    Console.Write($"Inventory:");
+
+                    foreach (var item in Player.Inventory)
+                    {
+                        Console.SetCursorPosition(MapRenderWidth, ++i);
+                        Console.Write($" {item}");
+                    }
+                    Console.SetCursorPosition(MapRenderWidth, ++i);
+                    Console.Write(new string(' ', InvRenderWidth));
+
+                    Console.SetCursorPosition(pos.x, pos.y);
+                }
             }
         }
         public static void ItemSelect()
@@ -141,6 +144,14 @@ namespace Roguelike
                 Console.Write($">");
                 Console.SetCursorPosition(pos.x, pos.y);
             }
+        }
+
+        public static FakeWall FindWallId(int id)
+        {
+            foreach (var item in Characters)
+                if (item is FakeWall fw && fw.WallId == id)
+                    return item as FakeWall;
+            return null;
         }
 
         public static void AddChar(Character character)

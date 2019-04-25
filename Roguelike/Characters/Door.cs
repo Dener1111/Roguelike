@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,9 @@ namespace Roguelike.Characters
 {
     class Door : Character, IActivatable
     {
+        [JsonIgnore]
         public char Graphic1 { get; set; }
+        [JsonIgnore]
         public char Graphic2 { get; set; }
 
         public bool Vertical { get; set; }
